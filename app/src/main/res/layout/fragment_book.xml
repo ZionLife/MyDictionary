@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E3DD"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:text="轻字典"
+        android:textSize="30sp" />
+
+
+    <LinearLayout
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        >
+        <EditText
+            android:id="@+id/et_word"
+            android:layout_width="290dp"
+            android:layout_height="match_parent"
+            android:hint="输入汉字"
+            android:background="@drawable/sear_edit"/>
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:background="@drawable/sousuo"
+            style="?android:borderlessButtonStyle"
+            />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv_result"
+        android:layout_width="330dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:visibility="invisible"
+        android:background="@drawable/edittext">
+
+        <include layout="@layout/result" />
+    </ScrollView>
+
+    <!--<TextView-->
+        <!--android:layout_width="330dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:lineSpacingExtra="5dp"-->
+        <!--android:padding="8dp"-->
+        <!--android:text="       河流之所以能够到达目的地，是因为 它懂得怎样避开障碍。"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="15sp" />-->
+</LinearLayout>
