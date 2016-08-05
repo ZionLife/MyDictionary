@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +25,6 @@ import com.zionlife.mydictionary.MyApplication;
 import com.zionlife.mydictionary.R;
 import com.zionlife.mydictionary.bean.ReturnInfo;
 import com.zionlife.mydictionary.utils.Utils;
-
-import java.util.logging.MemoryHandler;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,11 +43,17 @@ public class BookFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
+                    pbProgress.setVisibility(View.GONE);
                     showResult();
-                    Log.e("run", "33333333333333");
                     break;
                 case 1:
+                    pbProgress.setVisibility(View.GONE);
                     Toast.makeText(MyApplication.context, "查询出错，请检查网络连接或稍后重试", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    pbProgress.setVisibility(View.GONE);
+                    Toast.makeText(MyApplication.context, "请输入一个要查询的汉字", Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     break;
             }
@@ -59,8 +65,6 @@ public class BookFragment extends Fragment {
     LinearLayout llBb;
     @Bind(R.id.ll_jw)
     LinearLayout llJw;
-    @Bind(R.id.ll_bishun)
-    LinearLayout llBishun;
     @Bind(R.id.ll_content)
     LinearLayout llContent;
     @Bind(R.id.ll_result)
@@ -77,14 +81,21 @@ public class BookFragment extends Fragment {
     TextView tvJiegou;
     @Bind(R.id.tv_wubi)
     TextView tvWubi;
-    @Bind(R.id.tv_bishun)
-    TextView tvBishun;
-    @Bind(R.id.tv_english)
-    TextView tvEnglish;
+    //    @Bind(R.id.tv_bishun)
+//    TextView tvBishun;
     @Bind(R.id.et_word)
     EditText etWord;
     @Bind(R.id.btn_search)
     Button btnSearch;
+    @Bind(R.id.iv_bg)
+    ImageView ivBg;
+    @Bind(R.id.tv_bg)
+    TextView tvBg;
+    @Bind(R.id.pb_progress)
+    ProgressBar pbProgress;
+    @Bind(R.id.tv_english)
+    TextView tvEnglish;
+
 
     @Nullable
     @Override
@@ -99,6 +110,7 @@ public class BookFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pbProgress.setVisibility(View.VISIBLE);
                 word = etWord.getText().toString();
                 word = word.replaceAll(" ", "");
                 etWord.setText("");
@@ -106,17 +118,22 @@ public class BookFragment extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             jsonResult = Utils.request(httpUrl, httpArg + word);
-                            if(!TextUtils.isEmpty(jsonResult)) {
+                            if (!TextUtils.isEmpty(jsonResult)) {
                                 ri = Utils.parseJson(jsonResult);
                                 mhandler.sendEmptyMessage(0);
-                            } else{
+                            } else {
                                 mhandler.sendEmptyMessage(1);
                             }
                         }
                     }).start();
                 } else {
-                    Toast.makeText(MyApplication.context, "请输入一个要查询的汉字", Toast.LENGTH_SHORT).show();
+                    mhandler.sendEmptyMessage(2);
                 }
             }
         });
@@ -124,6 +141,8 @@ public class BookFragment extends Fragment {
 
 
     private void showResult() {
+        ivBg.setVisibility(View.GONE);
+        tvBg.setVisibility(View.GONE);
         svResult.setVisibility(View.VISIBLE);
         String pinyin[] = ri.result.pinyin.split(",");
         String content = "";
@@ -144,7 +163,6 @@ public class BookFragment extends Fragment {
         tvBihua.setText("笔画：" + ri.result.bihua);
         tvJiegou.setText("结构：" + ri.result.jiegou.replace("结构", ""));
         tvWubi.setText("五笔：" + ri.result.wubi);
-        tvBishun.setText("笔顺：" + ri.result.bishun);
 
         for (int i = 0; i < ri.result.explain.size(); i++) {
             ReturnInfo.ResultData.Explain ep = ri.result.explain.get(i);

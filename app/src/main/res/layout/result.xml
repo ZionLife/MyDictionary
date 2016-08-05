@@ -34,7 +34,8 @@
             <LinearLayout
                 android:id="@+id/ll_pinyin"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="5dp"
                 android:orientation="horizontal">
@@ -44,7 +45,8 @@
             <LinearLayout
                 android:id="@+id/ll_bb"
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:orientation="horizontal">
@@ -68,8 +70,9 @@
             <LinearLayout
                 android:id="@+id/ll_jw"
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:layout_marginBottom="5dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="5dp"
                 android:orientation="horizontal">
 
@@ -87,47 +90,27 @@
                     android:layout_weight="1"
                     android:text="结构：上下结构"
                     android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_bishun"
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:layout_marginLeft="5dp"
-                android:orientation="horizontal">
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:focusableInTouchMode="true"
-                    android:focusable="true"
-                    >
-
-                    <TextView
-                        android:id="@+id/tv_bishun"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:text="笔顺：フノ一フ丨一"
-                        android:textSize="15sp" />
-                </ScrollView>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_english"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="" />
 
     <TextView
+        android:id="@+id/tv_english"
+        android:layout_width="305dp"
+        android:layout_height="match_parent"
+        android:singleLine="false"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:textSize="15sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/textbg"
+        android:text="" />
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:text="释义："
         android:textColor="@android:color/black"
         android:textSize="20sp" />
@@ -136,7 +119,9 @@
         android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+    </LinearLayout>
 
 
 </LinearLayout>

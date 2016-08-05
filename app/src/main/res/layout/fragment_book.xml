@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="100dp"
         android:gravity="center"
-        android:text="轻字典"
+        android:text="轻词典"
         android:textSize="30sp" />
 
 
@@ -21,7 +21,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         >
         <EditText
             android:id="@+id/et_word"
@@ -39,14 +39,40 @@
             />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/pb_progress"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        style="?android:progressBarStyleInverse"/>
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/bg"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible"
+        android:layout_marginTop="60dp"/>
+    <TextView
+        android:id="@+id/tv_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="书山有路，学海无涯"
+        android:textSize="16sp"
+        android:visibility="visible"
+        android:layout_gravity="center"/>
     <ScrollView
         android:id="@+id/sv_result"
         android:layout_width="330dp"
         android:layout_height="350dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:visibility="invisible"
+        android:padding="8dp"
+        android:paddingLeft="8dp"
+        android:visibility="gone"
         android:background="@drawable/edittext">
 
         <include layout="@layout/result" />
