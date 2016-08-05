@@ -11,6 +11,7 @@
         android:showDividers="middle">
 
         <LinearLayout
+            android:id="@+id/ll_book"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -41,6 +42,7 @@
             android:background="@android:color/white" />
 
         <LinearLayout
+            android:id="@+id/ll_jielong"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -71,6 +73,7 @@
             android:background="@android:color/white" />
 
         <LinearLayout
+            android:id="@+id/ll_shoucang"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -79,17 +82,17 @@
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/iv_news"
+                android:id="@+id/iv_shoucang"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/news_normal" />
+                android:src="@drawable/shoucang_normal" />
 
             <TextView
-                android:id="@+id/tv_news"
+                android:id="@+id/tv_shoucang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="2dp"
-                android:text="咨询"
+                android:text="收藏"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
         </LinearLayout>
