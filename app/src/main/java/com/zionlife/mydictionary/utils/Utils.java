@@ -23,6 +23,8 @@ import java.net.URL;
  */
 public class Utils {
 
+    public static String DB_NAME = "myClass.db";
+    public static String TABLE_NAME = "mClass";
     public Context context;
     public Handler handler;
     public Utils(Context context, Handler handler){

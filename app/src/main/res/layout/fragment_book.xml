@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="90dp"
         android:gravity="center"
         android:text="轻词典"
         android:textSize="30sp" />
@@ -77,16 +77,4 @@
 
         <include layout="@layout/result" />
     </ScrollView>
-
-    <!--<TextView-->
-        <!--android:layout_width="330dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:layout_marginTop="15dp"-->
-        <!--android:background="@android:color/white"-->
-        <!--android:lineSpacingExtra="5dp"-->
-        <!--android:padding="8dp"-->
-        <!--android:text="       河流之所以能够到达目的地，是因为 它懂得怎样避开障碍。"-->
-        <!--android:textColor="@android:color/black"-->
-        <!--android:textSize="15sp" />-->
 </LinearLayout>

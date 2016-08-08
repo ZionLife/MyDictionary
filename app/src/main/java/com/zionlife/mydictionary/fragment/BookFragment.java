@@ -21,13 +21,22 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.zionlife.mydictionary.MyApplication;
 import com.zionlife.mydictionary.R;
+import com.zionlife.mydictionary.bean.Explain;
 import com.zionlife.mydictionary.bean.ReturnInfo;
+import com.zionlife.mydictionary.db.DbManager;
 import com.zionlife.mydictionary.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/7/31 0031.
@@ -54,6 +63,9 @@ public class BookFragment extends Fragment {
                     pbProgress.setVisibility(View.GONE);
                     Toast.makeText(MyApplication.context, "请输入一个要查询的汉字", Toast.LENGTH_SHORT).show();
                     break;
+                case 3:
+                    pbProgress.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "查询失败", Toast.LENGTH_SHORT).show();
                 default:
                     break;
             }
@@ -83,8 +95,6 @@ public class BookFragment extends Fragment {
     TextView tvWubi;
     //    @Bind(R.id.tv_bishun)
 //    TextView tvBishun;
-    @Bind(R.id.et_word)
-    EditText etWord;
     @Bind(R.id.btn_search)
     Button btnSearch;
     @Bind(R.id.iv_bg)
@@ -95,6 +105,10 @@ public class BookFragment extends Fragment {
     ProgressBar pbProgress;
     @Bind(R.id.tv_english)
     TextView tvEnglish;
+    @Bind(R.id.et_word)
+    EditText etWord;
+    @Bind(R.id.btn_add)
+    Button btnAdd;
 
 
     @Nullable
@@ -107,6 +121,7 @@ public class BookFragment extends Fragment {
     }
 
     private void init() {
+        etWord.setText("好");
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,8 +140,14 @@ public class BookFragment extends Fragment {
                             }
                             jsonResult = Utils.request(httpUrl, httpArg + word);
                             if (!TextUtils.isEmpty(jsonResult)) {
-                                ri = Utils.parseJson(jsonResult);
-                                mhandler.sendEmptyMessage(0);
+                                Gson gson = new Gson();
+                                Map<String ,String> map = gson.fromJson(jsonResult, Map.class);
+                                if(map.get("status").equals("203")){
+                                    mhandler.sendEmptyMessage(3);
+                                }else {
+                                    ri = Utils.parseJson(jsonResult);
+                                    mhandler.sendEmptyMessage(0);
+                                }
                             } else {
                                 mhandler.sendEmptyMessage(1);
                             }
@@ -144,7 +165,7 @@ public class BookFragment extends Fragment {
         ivBg.setVisibility(View.GONE);
         tvBg.setVisibility(View.GONE);
         svResult.setVisibility(View.VISIBLE);
-        String pinyin[] = ri.result.pinyin.split(",");
+        String pinyin[] = ri.getResult().getPinyin().split(",");
         String content = "";
         String english = "";
         tvWord.setText(word);
@@ -159,16 +180,16 @@ public class BookFragment extends Fragment {
             py.setTextSize(15);
             llPinyin.addView(py);
         }
-        tvBushou.setText("部首：" + ri.result.bushou);
-        tvBihua.setText("笔画：" + ri.result.bihua);
-        tvJiegou.setText("结构：" + ri.result.jiegou.replace("结构", ""));
-        tvWubi.setText("五笔：" + ri.result.wubi);
+        tvBushou.setText("部首：" + ri.getResult().getBushou());
+        tvBihua.setText("笔画：" + ri.getResult().getBihua());
+        tvJiegou.setText("结构：" + ri.getResult().getJiegou().replace("结构", ""));
+        tvWubi.setText("五笔：" + ri.getResult().getWubi());
 
-        for (int i = 0; i < ri.result.explain.size(); i++) {
-            ReturnInfo.ResultData.Explain ep = ri.result.explain.get(i);
-            content = ep.content;
+        for (int i = 0; i < ri.getResult().getExplain().size(); i++) {
+            Explain ep = ri.getResult().getExplain().get(i);
+            content = ep.getContent();
             TextView tvTitle = new TextView(llContent.getContext());
-            tvTitle.setText(word + "[" + ep.pinyin + "]:");
+            tvTitle.setText(word + "[" + ep.getPinyin() + "]:");
             tvTitle.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             tvTitle.setTextColor(Color.GRAY);
             tvTitle.setTextSize(15);
@@ -185,14 +206,22 @@ public class BookFragment extends Fragment {
         }
 
         english += "[";
-        for (int i = 0; i < ri.result.english.size(); i++) {
-            english += ri.result.english.get(i);
-            if (i != ri.result.english.size() - 1) {
+        for (int i = 0; i < ri.getResult().getEnglish().size(); i++) {
+            english += ri.getResult().getEnglish().get(i);
+            if (i != ri.getResult().getEnglish().size() - 1) {
                 english += "、";
             }
         }
         english += "]";
         tvEnglish.setText("英语：" + english);
+    }
+
+    @OnClick({R.id.btn_add})
+    public void addWord(View view) {
+        DbManager dm = new DbManager(this.getContext());
+        if(dm.add(ri)){
+            Toast.makeText(this.getContext(), "已加入收藏", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
