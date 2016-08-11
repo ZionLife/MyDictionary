@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#E8E3DD">
 
-    <ListView
+    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/lv_shoucang"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

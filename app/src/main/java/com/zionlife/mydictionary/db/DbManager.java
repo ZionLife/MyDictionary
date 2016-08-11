@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.zionlife.mydictionary.bean.ReturnInfo;
+import com.zionlife.mydictionary.bean.StoredInfo;
 import com.zionlife.mydictionary.utils.Utils;
 
 import java.io.ByteArrayInputStream;
@@ -52,18 +53,21 @@ public class DbManager {
         }
     }
 
-    public List<ReturnInfo> getAll(){
-        List<ReturnInfo> riList = new ArrayList<ReturnInfo>();
-        ReturnInfo ri = null;
+    public List<StoredInfo> getAll(){
+        List<StoredInfo> siList = new ArrayList<StoredInfo>();
+        StoredInfo si = null;
         db = dh.getWritableDatabase();
         Cursor cursor = db.rawQuery("select *from " +Utils.TABLE_NAME, null);
         if(cursor != null){
             while (cursor.moveToNext()){
+                si = new StoredInfo();
                 byte[] data = cursor.getBlob(cursor.getColumnIndex("classData"));
                 ByteArrayInputStream bis = new ByteArrayInputStream(data);
                 try {
                     ObjectInputStream ois = new ObjectInputStream(bis);
-                    riList.add((ReturnInfo) ois.readObject());
+                    si.setRi((ReturnInfo) ois.readObject());
+                    si.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+                    siList.add(si);
                     bis.close();
                     ois.close();
                 } catch (IOException e) {
@@ -74,6 +78,12 @@ public class DbManager {
             }
         }
         cursor.close();
-        return riList;
+        return siList;
+    }
+
+    public boolean delete(int id){
+        db = dh.getWritableDatabase();
+        db.execSQL("DELETE FROM " +Utils.TABLE_NAME +" WHERE _id=" +id);
+        return true;
     }
 }
